@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  server:
+    image: node:12.10.0-alpine
+    container_name: dev-radar-backend
+    ports:
+      - '3333:3333'
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
+    links:
+      - database
+    command: sh -c "cd /usr/app/ && npm i && npm start"
+
+  database:
+    image: mongo
+    container_name: dev-radar-database
+    ports:
+      - '27017:27017'
+    volumes:
+      - /usr/mongodb/data
+    logging:
+      driver: 'none'
